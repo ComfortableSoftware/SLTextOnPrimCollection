@@ -1,0 +1,173 @@
+How to produce textures with alternative fonts for 5 character version (Photoshop VBscript version)
+
+Note: If you need to use XyzzyText for European or UTF-8 other languages, please see the following link: XyzzyText-UTF8 Use the following section for GIMP script-fu if you prefer opensource alternative. Use the following link: ZZText for an alternative international solution (still based on xytext and xyzzytext) using even fewer textures and lag than the xytext solution.
+
+If you need to display with another font, italics or other characters, you can do the following :)
+
+Using Photoshop VB Scripting on windows, just open up Photoshop CS3, and create with notepad the following MakeFonts.vbs:
+
+Dim appRef
+Set appRef = CreateObject( "Photoshop.Application" )
+' Remember current unit settings and then set units to
+' the value expected by this script
+Dim originalRulerUnits
+originalRulerUnits = appRef.Preferences.RulerUnits
+appRef.Preferences.RulerUnits = 1 ' psPixels
+' Create a new 512*512 pixel document and assign it to a variable.
+Dim docRef
+Dim artLayerRef
+Dim textItemRef
+dim rows(10)
+rows(1)=" !""#$%&'()"
+rows(2)="*+,-./0123"
+rows(3)="456789:;<="
+rows(4)=">?@ABCDEFG"
+rows(5)="HIJKLMNOPQ"
+rows(6)="RSTUVWXYZ["
+rows(7)="\]^_`abcde"
+rows(8)="fghijklmno"
+rows(9)="pqrstuvwxy"
+rows(10)="z{|}~·ΘΩ√"      
+
+dim fontname
+fontname="Courier"
+
+Set docRef = appRef.Documents.Add(512, 512, 72, "Table for font " & fontname, 2, 3, 1)
+' Create a new art layer containing text
+Dim colorObj
+Set colorObj=CreateObject("Photoshop.SolidColor")
+colorObj.RGB.Red=255
+colorObj.RGB.Green=255
+colorObj.RGB.Blue=255
+' Set the contents of the text layer.
+for i=1 to 10
+   for j=1 to 10
+     Set artLayerRef = docRef.ArtLayers.Add
+     artLayerRef.Kind = 2
+     Set textItemRef = artLayerRef.TextItem
+     ' textItemRef.Font = fontname
+     textItemRef.Color=colorObj
+     textItemRef.Justification = 2 
+     textItemRef.Font = "A Charming Font"
+     textItemRef.Size = 38
+     textItemRef.Contents = mid(rows(i),j,1)
+     textItemRef.Position = Array((j-1)*51.2+25,i*51.2-7)
+   next
+next
+' Restore unit settingPhotoshop CS3
+appRef.Preferences.RulerUnits = originalRulerUnits
+
+Just click on the file in internet explorer and it will start working with your photoshop (I'll take a bit to display all the 100 characters, maybe around 1 sec for character).
+
+This will layout the 100 characters in photoshop on 100 different layers. Then do the following:
+
+    select all the layers with text and go to Text tool and change to whatever font (size etc) you want
+    maybe need to add a black layer to see your fonts :) (after you have to hid or delete this)
+    merge all the layers in just one
+    add an alpha channel for transparency (all black)
+    select all in the merged text layer and copy it to alpha channel
+    enable the alpha channel and the RGB channel so that you see your font set and the transparent red
+    save the font as TGA preserving alpha channel
+    upload it to SecondLife 10 L$
+    get the UUID from the inventory and specify it instead of the standard template.
+
+How to produce textures with alternative fonts for 5 character version (GIMP script-fu version)
+
+Use the following script for generating characters with GIMP:
+
+To use it you must put under the $HOME/.gimpXXX/scripts directory and name it something.scm. Then you will find it under gimp <Toolbox>/Xtns/Script-Fu/Text. Clicking on it you are prompted for font to use (use monospaced fonts Andale Mono for instance). (Change only font and fontsize 50 should be ok, others are hard-coded in the script). Adapt with new unicode characters if you need them.
+
+Note: If you need to use XyzzyText for European or UTF-8 other languages, please see the following link: XyzzyText-UTF8 Use the following section for GIMP script-fu if you prefer opensource alternative. Use the following link: ZZText for an alternative international solution (still based on xytext and xyzzytext) using even fewer textures and lag than the xytext solution.
+
+
+(define (script-fu-xytext-simple inText inFont inFontSize inTextColor)
+   (let*
+       (
+       ; define our local variables
+       ; create a new image:
+       (theImageWidth  512)
+       (theImageHeight 512)
+       (theImage)
+       (theLayer )
+       (x 0)
+       (y 0)
+       (p 32)
+       (theText)
+       (rows #(
+               " !\"#$%&'()"
+               "*+,-./0123"
+               "456789:;<="
+               ">?@ABCDEFG"
+               "HIJKLMNOPQ"
+               "RSTUVWXYZ["
+               "\\]^_`abcde"
+               "fghijklmno"
+               "pqrstuvwxy"
+
+               ;"z{|}~·thetaOmegaRadix.o "
+               (list #\z #\{ #\| #\} #\~ #x387 #x3F4 #x3A9r #x221A #x387 )
+              )
+       )
+       (el 0)
+       (ch 0)
+       ) ;end of our local variables
+
+  ; builds image
+  (set! theImage (car    (gimp-image-new theImageWidth theImageHeight RGB)))
+  ; builds layer
+  (set! theLayer (car (gimp-layer-new theImage theImageWidth theImageHeight RGB-IMAGE "layer 1" 100 NORMAL) ) )
+  ; add layer to image
+  (gimp-image-add-layer theImage theLayer 0)
+
+  ; add alpha and set foreground
+  (gimp-layer-add-alpha theLayer)
+  (gimp-palette-set-foreground inTextColor)
+
+  ; clear all the image and remove selection
+  (gimp-selection-all theImage)
+  (gimp-edit-clear theLayer)
+  (gimp-selection-none theImage)
+
+  ; do actual plot of characters
+  (while (< x 10)
+    (while (< y 10)
+      (set! el (vector-ref rows x))
+      (set! ch (if (string? el) (substring el y (+ y 1)) (list-ref el (+ y 1))))
+      (if (integer? ch) (set! ch (integer->char ch)))
+      (if (char? ch)(set! ch (string ch)))
+      (set! p ch)
+      (set! theText (car (gimp-text-fontname theImage theLayer
+          (+ (* y 51.2) 12) (- (* x 51.2) 7)
+          p    0    TRUE
+          inFontSize PIXELS
+          inFont)))
+
+        ; go on next char
+        ;(set! p (+ p 1))
+        (set! y (+ y 1))
+      )
+
+    (set! y 0)
+    (set! x (+ x 1))
+  )
+
+  ; apply the layers (apply transparence
+  (gimp-image-merge-visible-layers theImage 0)
+
+  (gimp-display-new theImage)
+  )
+)
+
+(script-fu-register
+  "script-fu-xytext-simple"           ;func name
+  "XYText-simple"                     ;menu label
+  "Generate font for xytext-simple"   ;description
+  "Salahzar Stenvaag"                 ;author
+  "copyright 2008, Salahzar Stenvaag" ;copyright notice
+  "October 27, 1997"                  ;date created
+  ""                                  ;image type that the script works on
+  SF-STRING      "Text:"         "Text Box"           ;a string variable
+  SF-FONT        "Font:"         "Andale Mono"        ;a fixed font variable
+  SF-ADJUSTMENT  "Font size"     '(50 1 1000 1 10 0 1);a spin-button
+  SF-COLOR       "Color:"        '(255 255 255)       ;color variable
+)
