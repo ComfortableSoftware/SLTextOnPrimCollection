@@ -1,0 +1,11 @@
+//There really isn't a Prim Setup for these 
+//You can get a full perm 8 face plane mesh here for L$10
+//https://marketplace.secondlife.com/p/Mesh-8-Faces-8x1/3014457 [1]
+// Or for completely FREE here
+//https://marketplace.secondlife.com/p/FREE-8-faced-mesh-prim-xytext-v2-16-characters-per-half-a-prim/3312172 [2]
+
+8x1, high LOD, land impact 0.5: https://marketplace.secondlife.com/p/Free-full-perm-8-face-mesh-panel/4172861
+
+https://marketplace.secondlife.com/p/Mesh-8-Faces-8x1/3014457
+
+https://marketplace.secondlife.com/p/FREE-8-faced-mesh-prim-xytext-v2-16-characters-per-half-a-prim/3312172
