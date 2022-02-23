@@ -1,0 +1,13 @@
+Instructions on how to generate the texture are already published on Xyzzy main page, but just to be sure I repeat them here:
+
+    openup photoshop
+    click the vbs script in explorer and it will run over your photoshop
+    add one temporary layer and fill it with black just to see your characters
+    select one text layer and use "select similar layers"
+    change your font, size etc from the text tool and look how they appear (NOTE: should be monospace font)
+    merge all the selected layer into one single one
+    go to channel tab in layers, and add one new (alpha channel) it will be black per default
+    go to your font normal layer and select all
+    go to your alpha channel and paste it down
+    be sure to have the temporary black layer deselected and to select RGB layers so to see transparency in red
+    save as tga 32 bit and upload it to SL.

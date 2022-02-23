@@ -1,0 +1,14 @@
+XyzzyText doesn't work with European characters.. :( See also ZZText for a comprehensive International low-prim solution. XyText-UTF8 for the a full programmatic solution with standard xytext. I eventually found out that XyzzyText is really slower than XyText so I'm showing a comprehensive solution with xytext in previous link.
+
+However here is a PhotoShop script and a variation on the main server you can use to adapt it to your needs if you are using UTF-8 fonts:
+
+The theory is the following:
+
+    prepare a 512x1024 texture with in the first part the standard Xyzzy chars, and in 2nd part customized characters (you can define up to 100 extra chars)
+    modify the master and slave scripts to decode UTF-8 chars as explained below
+    vertical parameters taken from XyzzyText standard text have been modified to allow the fact we have twice the characters in vertical size.
+    typographical quality of the rendered characters is the same as the 512x512 texture version, since we are just expanding it, not compressing.
+
+Very Important:
+
+    The master script is very very tight on space, so if you really want to use this you have to cut much of it, in my real application I simply removed the extended verbs and the fading options, and rewrote the UTF-8 list using the x=(x=[])+x+newlist well known trick to save memory. If you don't do this you will likely get stack-heap collision.
