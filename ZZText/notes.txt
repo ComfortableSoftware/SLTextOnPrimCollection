@@ -1,0 +1,81 @@
+ZZText is a low-prim, low-lag, international variation of XyText with the following features:
+
+    can be enhanced with new fonts or UTF-8 characters using GIMP and python-fu.
+    uses only 35 textures instead of 66 for the 10 chars on prim solution (this gives a bit less quality then the original xytext, but under normal situations is acceptable.
+
+Rationale: if you have problems with prim usage, then you can accept this compromise.
+
+    this particular combination of textures gives something way more rapid than XyzzyText, which is very slow for big boards, and less lagger than XyText.
+    small warning: there is still some slight improvements for this zzText to be reasonably acceptable (consider it in a Beta stage), will post soon when it will be fully acceptable.
+
+Credits and copyright
+
+ZZText is heavily dependent on XyText so it shares and extends credits and copyrights.
+
+Also this is a low prim variation of the XyzzyText-UTF8 page but downgraded to use XyText lower quality paradigm instead than the 1 character face approach.
+How to generate the textures
+
+    GIMP 2.8 has already python-fu installed so you don't need to bother on installing it as I suggested some years ago
+    Use the mega-image maker python-fu script (see following sections)
+    Use the splitter python-fu script to produce 512x512 guides for later splitting
+    Use the filter/web/slice... button to produce 64 slices in png format to retain transparence (from 0-0 to 7-7)
+    Manually remove the empty slices (the i-j where j>i for instance 2-3, 6-7) so you have only 35 images png.
+    Manually convert each png to tga (this is solving some problems with sl uploading regarding transparence)
+    Upload the textures keeping the order 0-0 1-0 1-1 2-0 2-1 2-3 .... until 7-7)
+
+
+Manual parts can be automated by another python-fu, but I was so exhausted with the others that it was ok for me doing manually :)
+
+There is still some fix needed to do on the python-fu script. Currently characters are still a bit unevenly put so that when displaying them depending on which couple using we might see some slight asymmetric unbalancing. You can note this only when looking very closely to the chars. Whenever I fix myself this problem I will post here.
+
+For those of you who already accept fonts I did last week, look at next sections for the 35 texture UUIDs:
+So how can I use it?
+
+    Put the script named ZZText into each prim of your board naming each cell 1000 ---- 1099 as far as you need cells
+    Have a main script doing the following: llMessageLinked(LINK_SET,1040,"çòàùè",NULL_KEY) to write on cell named 1040
+
+To divide in rows, use simple modulus operations.
+Variation on XyText 1.5 standard script
+
+For not being so difficult to follow, I only publish differences between my script and XyText 1.5 so that you might be able to understand better what I did:
+Change CHARACTER_GRID with our full permission textures
+
+list    CHARACTER_GRID  = [
+        "96f4578b-879e-44ae-d223-427cc615f5a4", // my slice-0-0
+        "eab5360f-6653-593f-b679-69c68b0dd001", // 1-0
+        "367330be-717a-277d-5205-131cd6ded458", // 1-1
+        "32046675-6e7e-2425-ce77-69000b0b4d96", // 2-0
+        "40085901-bde6-2dd4-40cd-b6d48d242997", // 2-1
+        "205d318b-09b7-7ecc-922e-801c93a546c8", // 2-2
+        "841e7826-3645-d4f0-d48b-389586dd8e90", // 3-0
+        "e2db78c5-fb47-d767-4744-8cb6d84610d0", // 3-1
+        "15312c89-afd4-854c-9d9b-5b9e11844aed", // 3-2
+        "d180e771-0393-d09b-8cac-0af6d550ae4a", // 3-3
+        "c6c1d2c8-5dfd-b13a-7f1e-c3ede8126769", // 4-0
+        "bc100d0c-a445-947f-caa4-285d9cc8a9de", // 4-1
+        "0b31e862-75a4-9ed3-6331-e9e700a0fedb", // 4-2
+        "0eacc306-6bd5-ab31-de47-c686141a6733", // 4-3
+        "b68de1d9-4890-74a0-4d25-d4d5c83a0dba", // 4-4
+        "04b2bf9b-a8bb-0a39-1062-9b005229eba9", // 5-0
+        "be293f10-25ec-beb9-738b-fe1892b82aef", // 5-1
+        "5e9c8317-71f5-f073-76ab-7c412d3acb84", // 5-2
+        "030b441b-9022-2aba-f7a7-af6810c354b8", // 5-3
+        "9f455858-8ae6-3a9a-c2d4-bc5ee92430ac", // 5-4
+        "ee741143-f01e-f730-667e-66a3cd57d1cc", // 5-5
+        "710282bc-bd80-5a44-6987-0c4c11a4c294", // 6-0
+        "c9c410db-675a-1e98-4107-debd3c73a754", // 6-1
+        "486c2336-71c5-b962-266c-838a865c067c", // 6-2
+        "d4722155-0b6d-3673-0208-a727729bc117", // 6-3
+        "bc7af3cd-ee48-08df-fe8b-a6ca8a425733", // 6-4
+        "f23d7a73-00c3-1ffd-69a7-0cca031c939d", // 6-5
+        "aa95bfd1-ac80-f962-7acf-d6aeed9c7e81", // 6-6
+        "53fd52e3-0e8b-dcc8-42f8-332aef421bd2", // 7-0
+        "da3f6f09-3e3a-e156-8e2e-1040111a5635", // 7-1
+        "409a95c0-b685-2036-d0de-75e8ab654243", // 7-2
+        "14e05aca-3a61-b892-3632-dcde72324779", // 7-3
+        "546c0e4f-b678-895d-2035-0f39bb7f4979", // 7-4
+        "cf2fc337-109f-ba25-8ff5-786f7d6ceb5b", // 7-5
+        "9943204b-a4de-868a-3cdd-8785d1864ede", // 7-6
+        "765cfd9c-9703-b5ba-2c5d-f1c8bd44e0f4"  // 7-7
+          ];
+          
